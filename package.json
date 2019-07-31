@@ -1,0 +1,25 @@
+{
+    "name": "fengdie-schema",
+    "displayName": "Fengdie Schema",
+    "description": "Support for Fengdie Schema language.",
+    "version": "0.0.1",
+    "engines": {
+        "vscode": "^1.36.0"
+    },
+    "categories": [
+        "Programming Languages"
+    ],
+    "contributes": {
+        "languages": [{
+            "id": "fengdie_schema",
+            "aliases": ["Fengdie Schema", "fengdie_schema"],
+            "extensions": [".schema"],
+            "configuration": "./language-configuration.json"
+        }],
+        "grammars": [{
+            "language": "fengdie_schema",
+            "scopeName": "source.schema",
+            "path": "./syntaxes/fengdie_schema.tmLanguage.json"
+        }]
+    }
+}

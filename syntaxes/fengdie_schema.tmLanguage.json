@@ -1,0 +1,149 @@
+{
+	"$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+	"name": "Fengdie Schema",
+	"patterns": [{
+    "name": "storage.type.schema_type.fengdie_schema",
+    "match": "\\b(Object|Array)\\b"
+  }, {
+    "include": "#schema_desc"
+  }, {
+    "include": "#meta"
+  }, {
+    "include": "#sub_object"
+  }, {
+    "name": "comment.block.fengdie_schema",
+    "begin": "/\\*",
+    "end": "\\*/"
+  }],
+  "repository": {
+    "sub_object": {
+      "begin": "{",
+      "end": "}",
+      "name": "meta.entity.name.type.object.fengdie_schema",
+      "patterns": [{
+        "include": "#field_name_define"
+      }, {
+        "include": "$self"
+      }, {
+        "match": "\\b(Object|Array|String|Image|Number|Boolean|URL|Text|RichText|Color|Enum|File|Date|Box)\\b",
+        "name": "storage.type.field_type.fengdie_schema"
+      }, {
+        "include": "#sub_object_div"
+      }]
+    },
+    "schema_desc": {
+      "name": "storage.modifier.schema_desc.fengdie_schema",
+      "begin": "\\(",
+      "end": "\\)",
+      "captures": {
+        "0": { "name": "meta.entity.name.section.schema_desc.fengdie_schema" }
+      },
+      "patterns": [{
+        "match": "\\\\.",
+        "name": "string.quoted.escape.brackets.fengdie_schema"
+      }, {
+        "match": "[^\\)]",
+        "name": "string.quoted.brackets.fengdie_schema"
+      }]
+    },
+    "meta": {
+      "name": "meta.entity.name.section.schema_or_field_meta.fengdie_schema",
+      "begin": "\\[",
+      "end": "\\]",
+      "patterns": [{
+        "include": "#if_group"
+      }, {
+        "include": "#meta_assign_group"
+      }, {
+        "include": "#number"
+      }, {
+        "include": "#constant.language"
+      }, {
+        "include": "#double_string"
+      }, {
+        "include": "#meta_div"
+      }, {
+        "match": "[^\\]]",
+        "name": "invalid.illegal.fengdie_schema"
+      }]
+    },
+    "number": {
+      "match": "(?x:-?(?:0|[1-9]\\d*)(?:(?:\\.\\d+)?(?:[eE][+-]?\\d+)?)?)",
+      "name": "constant.numeric.fengdie_schema"
+    },
+    "meta_assign_group": {
+      "match": "\\b(\\w+)\\s*(:)",
+      "name": "meta.variable.parameter.meta_key_group.fengdie_schema",
+      "captures": {
+        "1": { "name": "variable.parameter.meta_key.fengdie_schema" },
+        "2": { "name": "keyword.operator.meta_assign.fengdie_schema" }
+      }
+    },
+    "constant.language": {
+      "match": "\\b(true|false)\\b",
+      "name": "constant.language.fengdie_schema"
+    },
+    "double_string": {
+      "begin": "\"",
+      "end": "\"",
+      "name": "string.quoted.double.fengdie_schema",
+      "patterns": [{
+        "match": "\\\\.",
+        "name": "string.quoted.escape.double.fengdie_schema"
+      }]
+    },
+    "meta_div": {
+      "match": ",",
+      "name": "keyword.operator.meta_div.fengdie_schema"
+    },
+    "sub_object_div": {
+      "match": ",",
+      "name": "keyword.operator.sub_object_div.fengdie_schema"
+    },
+    "field_name_define": {
+      "begin": "\\b(\\w+)\\s*\\(",
+      "end": "\\)\\s*(:?)",
+      "name": "meta.entity.name.section.field_defination.fengdie_schema",
+      "beginCaptures": {
+        "1": { "name": "variable.parameter.field_name.fengdie_schema" }
+      },
+      "endCaptures": {
+        "1": { "name": "keyword.operator.field_type_assign.fengdie_schema" }
+      },
+      "patterns": [{
+        "match": "[^\\)]",
+        "name": "string.quoted.brackets.fengdie_schema"
+      }, {
+        "match": "\\\\.",
+        "name": "string.quoted.escape.brackets.fengdie_schema"
+      }]
+    },
+    "if_group": {
+      "begin": "\\b(if)\\s*(:)\\s*(\")",
+      "end": "(\")",
+      "name": "meta.entity.name.section.if_expression.fengdie_schema",
+      "beginCaptures": {
+        "1": { "name": "variable.parameter.meta_key.fengdie_schema" },
+        "2": { "name": "keyword.operator.meta_assign.fengdie_schema" },
+        "3": { "name": "string.interpolated.if_expression.fengdie_schema" }
+      },
+      "endCaptures": {
+        "1": { "name": "string.interpolated.if_expression.fengdie_schema" }
+      },
+      "patterns": [{
+        "match": "\\$(\\.\\w+)+",
+        "name": "variable.parameter.in_if_expression.fengdie_schema"
+      }, {
+        "match": "[+\\-\\*\\/\\%=\\<\\>\\!&\\|\\(\\)]",
+        "name": "keyword.operator.in_if_expression.fengdie_schema"
+      }, {
+        "include": "#double_string"
+      }, {
+        "include": "#constant.language"
+      }, {
+        "include": "#number"
+      }]
+    }
+  },
+	"scopeName": "source.schema"
+}
